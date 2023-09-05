@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Delete ATR Question">
+    <aura:attribute name="selectedQuestion" type="ATR_Question__c" />
+</aura:event>

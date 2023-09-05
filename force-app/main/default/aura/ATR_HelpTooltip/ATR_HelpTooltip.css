@@ -1,0 +1,6 @@
+.THIS.tooltip {
+    margin-left: 1em; 
+    min-height: 50px;
+    position: absolute;
+    text-transform: none;
+}

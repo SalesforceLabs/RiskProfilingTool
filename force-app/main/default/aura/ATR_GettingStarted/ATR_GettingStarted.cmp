@@ -1,0 +1,12 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:handler event="c:ATR_ChangeTabFocus" action="{!c.handleFocus}"/>
+    
+    <aura:attribute name="selectedTabId"   type="String" default="startTab" />
+    <aura:attribute name="template"        type="ATR_Template__c" />
+    <aura:attribute name="showNewTemplate" type="Boolean" default="false" />
+    
+    <lightning:tabset variant="scoped" selectedTabId="{!v.selectedTabId}">
+        <lightning:tab onactive="{!c.handleActive}" label="Getting Started" id="startTab"  aura:id="startTab" />
+        <lightning:tab onactive="{!c.handleActive}" label="Configuration"   id="configTab" aura:id="configTab" />
+    </lightning:tabset>
+</aura:component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ATR_Template__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>ATR Template</label>
+    <referenceTo>ATR_Template__c</referenceTo>
+    <relationshipLabel>ATR Questions</relationshipLabel>
+    <relationshipName>ATR_Questions</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

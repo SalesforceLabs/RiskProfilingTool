@@ -1,0 +1,5 @@
+<aura:event type="Application" description="Add/Edit Question Event">
+    <aura:attribute name="question" type="ATR_Question__c"/>
+    <aura:attribute name="answers"  type="ATR_Choice__c[]"/>
+    <aura:attribute name="todelete" type="ATR_Choice__c[]"/>
+</aura:event>

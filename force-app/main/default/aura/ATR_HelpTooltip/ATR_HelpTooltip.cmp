@@ -1,0 +1,19 @@
+<aura:component >
+    <aura:attribute name="helpTextArr" type="String[]" />
+    
+    <div style="display: inline-block;" onmouseover="{!c.toggle}" onmouseout="{!c.toggle}">
+        <button class="slds-button slds-button slds-button_icon" aria-describedby="help" >
+            <lightning:icon iconName="utility:info" size="x-small" alternativeText="Help"/>
+        </button>
+    </div>
+    
+    <div class="slds-popover slds-popover_tooltip slds-nubbin_left-top tooltip slds-hide" role="tooltip" aura:id="helpText">
+        <div class="slds-popover__body">
+            <aura:iteration items="{!v.helpTextArr}" var="helpText">
+                <div class="slds-p-vertical_small">
+                	{!helpText}
+                </div>
+            </aura:iteration>
+        </div>
+    </div> 
+</aura:component>

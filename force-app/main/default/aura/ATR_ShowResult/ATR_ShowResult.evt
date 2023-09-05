@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Complete the survey and show result" >
+    <aura:attribute name="ATRTaken"  type="ATR_Taken__c" />
+</aura:event>

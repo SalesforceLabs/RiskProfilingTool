@@ -1,0 +1,87 @@
+# This file is used for Git repositories to specify intentionally untracked files that Git should ignore. 
+# If you are not using git, you can delete this file. For more information see: https://git-scm.com/docs/gitignore
+# For useful gitignore templates see: https://github.com/github/gitignore
+
+jsconfig.json
+
+# Salesforce cache
+.sfdx/
+.localdevserver/
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Eslint
+.eslintcache
+.eslintrc.json
+
+# MacOS system files
+.DS_Store
+__MACOSX/
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Standard classes that come with all dev orgs
+ChangePasswordController.cls
+ChangePasswordController.cls-meta.xml
+ChangePasswordControllerTest.cls
+ChangePasswordControllerTest.cls-meta.xml
+CommunitiesLandingController.cls
+CommunitiesLandingController.cls-meta.xml
+CommunitiesLandingControllerTest.cls
+CommunitiesLandingControllerTest.cls-meta.xml
+CommunitiesLoginController.cls
+CommunitiesLoginController.cls-meta.xml
+CommunitiesLoginControllerTest.cls
+CommunitiesLoginControllerTest.cls-meta.xml
+CommunitiesSelfRegConfirmController.cls
+CommunitiesSelfRegConfirmController.cls-meta.xml
+CommunitiesSelfRegConfirmControllerTest.cls
+CommunitiesSelfRegConfirmControllerTest.cls-meta.xml
+CommunitiesSelfRegController.cls
+CommunitiesSelfRegController.cls-meta.xml
+CommunitiesSelfRegControllerTest.cls
+CommunitiesSelfRegControllerTest.cls-meta.xml
+ForgotPasswordController.cls
+ForgotPasswordController.cls-meta.xml
+ForgotPasswordControllerTest.cls
+ForgotPasswordControllerTest.cls-meta.xml
+LightningForgotPasswordController.cls
+LightningForgotPasswordController.cls-meta.xml
+LightningForgotPasswordControllerTest.cls
+LightningForgotPasswordControllerTest.cls-meta.xml
+LightningLoginFormController.cls
+LightningLoginFormController.cls-meta.xml
+LightningLoginFormControllerTest.cls
+LightningLoginFormControllerTest.cls-meta.xml
+LightningSelfRegisterController.cls
+LightningSelfRegisterController.cls-meta.xml
+LightningSelfRegisterControllerTest.cls
+LightningSelfRegisterControllerTest.cls-meta.xml
+MyProfilePageController.cls
+MyProfilePageController.cls-meta.xml
+MyProfilePageControllerTest.cls
+MyProfilePageControllerTest.cls-meta.xml
+SiteLoginController.cls
+SiteLoginController.cls-meta.xml
+SiteLoginControllerTest.cls
+SiteLoginControllerTest.cls-meta.xml
+SiteRegisterController.cls
+SiteRegisterController.cls-meta.xml
+SiteRegisterControllerTest.cls
+SiteRegisterControllerTest.cls-meta.xml
+
+#Translation files
+fr.translation-meta.xml

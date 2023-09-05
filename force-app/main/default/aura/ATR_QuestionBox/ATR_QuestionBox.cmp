@@ -1,0 +1,35 @@
+<aura:component controller="ATR_QuestionnaireController">
+    <aura:attribute name="question"      type="ATR_Question__c" />
+    <aura:attribute name="response"      type="ATR_Question_Response__c" />
+    <aura:attribute name="currentAnswer" type="String" />
+    <aura:attribute name="answers"       type="ATR_Choice__c[]" />
+    
+    <!-- Event Registration -->
+    <aura:registerEvent name="updateResponse" type="c:ATR_UpdateResponse" />
+    
+    <!-- Event Handler -->
+    <aura:handler name="change" value="{!v.question}" action="{!c.doInit}"/>
+    
+    <!-- BOXED AREA -->
+    <div class="slds-form_stacked slds-theme_default slds-container_x-large slds-p-around_small">
+        <legend class="slds-text-heading_large slds-p-around_small">
+            <ui:outputTextArea value="{!v.question.Question__c}"/>
+        </legend>
+        <fieldset class="slds-form-element slds-p-around_small">
+            <legend class="slds-form-element__legend slds-form-element__label slds-m-top_medium">
+                Select the most appropriate answer:
+            </legend>
+            <div class="slds-form-element__control">
+                <aura:iteration items="{!v.answers}" var="answer" indexVar="index">
+                    <div class="slds-radio">
+                        <lightning:input type="radio" aura:id="radiobuttons" label="{!answer.Answer__c}" value="{!answer.Score__c}" 
+                                         name="{!v.question.Id}" 
+                                         checked="{!if(answer.Answer__c == v.currentAnswer, true, false)}"
+                                         onchange="{!c.onSelectChange}" />
+                    </div>
+                </aura:iteration>
+            </div>
+        </fieldset>
+    </div>
+    <!-- / BOXED AREA -->
+</aura:component>

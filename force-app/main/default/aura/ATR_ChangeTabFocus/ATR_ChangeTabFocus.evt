@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Change tab focus">
+    <aura:attribute name="tabName"  type="String" />
+    <aura:attribute name="template" type="ATR_Template__c" />
+</aura:event>

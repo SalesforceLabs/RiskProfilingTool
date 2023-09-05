@@ -1,0 +1,98 @@
+<aura:component controller="ATR_ConfigController">
+    <aura:attribute name="riskProfileConfigured" type="Boolean" />
+    <aura:attribute name="templateConfigured"    type="Boolean" />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="profilePicWrapper slds-media slds-no-space slds-media__figure">
+                        <lightning:icon size="small" iconName="{!v.riskProfileConfigured == true ? 'action:approval' : 'action:close'}"/>
+                    </div>
+                </div>
+                <div class="slds-media__body">
+                    <h2>
+                        <div class="slds-card__header-link slds-truncate">
+                            <span class="slds-text-heading_small">Configure Risk Profiles</span>
+                        </div>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+                <lightning:button variant="neutral" onclick="{!c.loadRiskProfileHome}" label="Configure Risk Profile" />
+            </div>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <aura:if isTrue="{!v.riskProfileConfigured == false}">
+                There is no risk profile configured.
+            </aura:if>
+        </div>
+    </article>
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="profilePicWrapper slds-media slds-no-space slds-media__figure">
+                        <lightning:icon size="small" iconName="{!v.templateConfigured == true ? 'action:approval' : 'action:close'}"/>
+                    </div>
+                </div>
+                <div class="slds-media__body">
+                    <h2>
+                        <div class="slds-card__header-link slds-truncate">
+                            <span class="slds-text-heading_small">Create a new template</span>
+                        </div>
+                    </h2>
+                </div>
+            </header>
+            <div class="slds-no-flex">
+                <lightning:button variant="neutral" onclick="{!c.loadConfigTab}" label="Create New Template" />
+            </div>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <aura:if isTrue="{!v.templateConfigured == false}">
+                There is no template configured.
+            </aura:if>
+        </div>
+    </article>
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <div class="profilePicWrapper slds-media slds-no-space slds-media__figure">
+                        <lightning:icon size="small" iconName="action:question_post_action"/>
+                    </div>
+                </div>
+                <div class="slds-media__body">
+                    <h2>
+                        <div class="slds-card__header-link slds-truncate">
+                            <span class="slds-text-heading_small">Help</span>
+                        </div>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <p>This Attitude to Risk questionnaire enables advisers to quickly gauge a client's 'Attitude to Risk', and record the output against their Client record.</p>
+            <p class="instructionHeader slds-m-top_medium slds-m-bottom_small">What is Attitude to Risk?</p>
+            <p>Attitude to Risk (ATR) is a basic measure of how much risk a client is willing to take with their money and therefore it helps guide a Financial Planner when they are recommending an investment.</p>
+            <p class="instructionHeader slds-m-top_medium slds-m-bottom_small">What is Risk Profile?</p>
+            <p>The result of the ATR Questionnaire is a score and it corresponds to a category of risk most commonly aligned to a 'Risk Profile'.  You can create the risk profiles that are appropriate for your business.</p>
+            <p class="instructionHeader slds-m-top_medium slds-m-bottom_small">What is ATR Template?</p>
+            <p>The ATR Template includes a collection of questions and answers and their contribution to the overall score. Multiple questionnaire templates can be created depending on territories or investment types, but the outcome of the questionnaires should align with the defined risk profiles.</p>
+            <p class="instructionHeader slds-m-top_medium slds-m-bottom_small">Will the questionnaire results be saved?</p>
+            <p>Yes, the list of questionnaires taken by a Client (Account) can be found in the related list (ATR Taken) on the Client page.</p>
+            <p class="instructionHeader slds-m-top_medium slds-m-bottom_small">How do I create my questionnaire?</p>
+            <p>Please follow the checklist above to start creating a new questionnaire template. </p>
+            <p>You can also modify the existing template from the Configuration tab.</p>
+            <p>Once created, advisers can start the questionnaire by clicking on the quick action in the top right (ATR Questionnaire) on the detail page of a Client (Account).</p>
+            <p>Please make sure the quick action is added to the Client (Account) page layout.</p>
+        </div>
+    </article>
+    
+    <!-- Modal for adding a new template -->
+    <lightning:overlayLibrary aura:id="ModalDialogPlaceholder" />
+</aura:component>
