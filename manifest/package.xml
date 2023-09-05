@@ -23,7 +23,7 @@
         <members>ATR_GettingStarted</members>
         <members>ATR_HelpTooltip</members>
         <members>ATR_Instruction</members>
-        <members>ATR_Master</members>
+        <members>ATR_ClientRiskProfile</members>
         <members>ATR_Modal</members>
         <members>ATR_NewTemplateModal</members>
         <members>ATR_Question</members>
