@@ -1,7 +1,7 @@
 # Risk Profiling Tool for Financial Services Cloud
 
 <div>
-    <a href="https://githubsfdeploy.herokuapp.com?owner=SalesforceLabs&repo=risk-profiling-tool&ref=main">
+    <a href="https://githubsfdeploy.herokuapp.com?owner=SalesforceLabs&repo=RiskProfilingTool&ref=main">
         <img alt="Deploy to Salesforce"
         src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
     </a>
