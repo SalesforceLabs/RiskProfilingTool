@@ -2,7 +2,7 @@
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
     <height>450</height>
     <label>Client Risk Profile</label>
-    <lightningComponent>ATR_Master</lightningComponent>
+    <lightningComponent>ATR_ClientRiskProfile</lightningComponent>
     <optionsCreateFeedItem>false</optionsCreateFeedItem>
     <type>LightningComponent</type>
     <width>-100</width>
