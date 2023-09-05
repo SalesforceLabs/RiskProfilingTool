@@ -1,0 +1,196 @@
+<aura:component controller="ATR_ConfigController" implements="force:hasRecordId,force:appHostable">
+    
+    <ltng:require styles="{! $Resource.ATR_jquery_ui + '/jquery-ui.min.css'}"  />
+    <ltng:require scripts="{!join(',', $Resource.ATR_jquery, $Resource.ATR_jquery_ui + '/jquery-ui.min.js')}" afterScriptsLoaded="{!c.scriptsLoaded}" />
+    
+    <aura:attribute name="templates" type="ATR_Template__c[]" access="private"/>
+    <aura:attribute name="profiles"  type="Risk_Profile__c"   access="private"/>
+    <aura:attribute name="questions" type="ATR_Question__c[]" access="private"/>
+    <aura:attribute name="template"  type="ATR_Template__c"   />
+    
+    <aura:attribute name="startPage" type="Boolean" default="true" />
+    
+    <aura:attribute name="questionIds" type="String[]" />
+    
+    <aura:handler name="deleteQuestion" event="c:ATR_deleteQuestion" action="{!c.deleteQuestion}" />
+    <aura:handler name="editQuestion"   event="c:ATR_EditQuestion"   action="{!c.editQuestion}"   />
+    
+    <aura:handler event="c:ATR_AddQuestion" action="{!c.addQuestion}" />
+    
+    <aura:handler name="init"   action="{!c.doInit}"    value="{!this}"/>
+    <aura:handler name="change" action="{!c.saveOrder}" value="{!v.questionIds}" />
+    
+    <lightning:spinner aura:id="mySpinner" variant="brand" size="large" class="slds-hide"/>
+    
+    <!-- Help Text -->
+    <aura:attribute name="questionsHelp" type="List" default="['The list below shows a set of questions for the current questionnaire template.',
+                                                              'You can add new questions to the template by clicking the \'Add Question\' button in the top right.',
+                                                              'Once added, questions can be edited, removed or re-ordered from the list section.',
+                                                              'Note that removing questions in the template will also remove any responses collected.',
+                                                              'The Max Score for the questions added must equal the highest band on the Risk Profiles.']" />
+    <aura:attribute name="profilesHelp"  type="List" default="['A risk profile is an evaluation of a client\'s willingness to take risks based on the result of the risk questionnaire.',
+                                                              'The list shows all the risk profiles in the order of score.',
+                                                              'Each risk profile shows the name of the profile, score range and description to give Advisers more insights about the result.']" />
+    <aura:if isTrue="{!v.startPage}">
+        <div class="slds-grid slds-container_medium atr-template-list">
+            <aura:if isTrue="{!v.templates.length > 0}">
+                <section class="slds-col slds-m-around_small atr-select-container">
+                    <lightning:select aura:id="templateList" name="templateList" variant="label-hidden" label="Choose Template">
+                        <aura:iteration items="{!v.templates}" var="template">
+                            <option value="{!template.Id}" text="{!template.Name}" />
+                        </aura:iteration>
+                    </lightning:select>
+                </section>
+                <section class="slds-col slds-m-around_small">
+                    <lightning:button aura:id="loadButton" 
+                                      label="Load Template" 
+                                      onclick="{!c.loadButton}" 
+                                      variant="brand" />
+                </section>
+            </aura:if>
+        </div>
+        <div class="slds-grid slds-container_medium atr-template-list">
+            <section class="slds-col slds-m-around_small atr-select-container">
+                <lightning:input variant="label-hidden" 
+                                 placeholder="New Template Name ..."
+                                 aura:id="templateName" 
+                                 label="Template Name: " 
+                                 class="slds-m-right_x-small" 
+                                 name="template" />
+            </section>
+            <section class="slds-col slds-m-around_small">
+                <lightning:button label="New Template" 
+                                  onclick="{!c.createTemplate}" 
+                                  variant="brand" />
+            </section>
+        </div>
+        <aura:set attribute="else">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" padding="around-small">
+                    <div class="slds-grid slds-p-around_medium">
+                        <div class="profilePicWrapper slds-media slds-no-space slds-media__figure">
+                            <lightning:icon iconName="standard:rtc_presence"/>
+                        </div>
+                        <div class="slds-media__body">
+                            <p class="slds-text-heading_label slds-line-height_reset">
+                                ATR Template
+                            </p>
+                            <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-middle">
+                                <span class="uiOutputText">
+                                    {!v.template.Name}
+                                </span>
+                            </h1>
+                        </div>
+                        <lightning:button aura:id="addQuestionButton" 
+                                          label="Add Question" 
+                                          iconName="utility:add" 
+                                          iconPosition="left"
+                                          onclick="{!c.addNewQuestion}" 
+                                          variant="brand">
+                        </lightning:button>
+                        <lightning:button aura:id="backButton" 
+                                          label="Back" 
+                                          iconName="utility:back" 
+                                          iconPosition="left"
+                                          onclick="{!c.backButton}" 
+                                          variant="neutral">
+                        </lightning:button>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="8" padding="around-small">
+                    <div class="slds-col column region-main">
+                        <div class="slds-page-header slds-theme_default" role="banner">
+                            <h2 class="slds-text-heading_medium">
+                                Questions
+                                <c:ATR_HelpTooltip helpTextArr="{!v.questionsHelp}" />                              
+                            </h2>
+                        </div>
+                        <div class="slds-is-relative slds-m-top_medium" id="questionList" aura:id="questionList">
+                            <aura:iteration items="{!v.questions}" var="q" indexVar="index">
+                                <div class="slds-p-bottom_small questionItem" id="{!q.Id}" >
+                                    <c:ATR_Question question="{!q}" index="{!index}" numQuestions="{!v.questions.length}" />
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        <div class="slds-panel slds-grid slds-grid_vertical slds-nowrap">
+                            <div class="slds-panel__section">
+                                <div class="slds-float_right">
+                                    <h3 class="slds-text-heading_medium slds-m-bottom_medium" style="text-align: right">Total</h3>
+                                    <ul>
+                                        <li class="slds-form-element slds-hint-parent slds-border_bottom">
+                                            <span class="slds-form-element__label">Min Score</span>
+                                            <div class="slds-form-element__control slds-text-align_right">
+                                                <span class="slds-text-heading_medium atr-score">
+                                                    {!v.template.Minimum_Total_Score__c}
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <li class="slds-form-element slds-hint-parent slds-border_bottom">
+                                            <span class="slds-form-element__label">Max Score</span>
+                                            <div class="slds-form-element__control slds-text-align_right">
+                                                <span class="slds-text-heading_medium atr-score">
+                                                    {!v.template.Maximum_Total_Score__c}
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="4" padding="around-small">
+                    <div class="slds-col column region-sidebar-right">
+                        <div class="slds-page-header slds-theme_default" role="banner">
+                            <p class="slds-text-heading_medium">
+                                Risk Profiles
+                                <c:ATR_HelpTooltip helpTextArr="{!v.profilesHelp}" />
+                            </p>
+                        </div>
+                        <aura:if isTrue="{!v.profiles.length > 0}">
+                            <div class="slds-m-top_medium">
+                                <aura:iteration items="{!v.profiles}" var="p">
+                                    <article class="slds-card">
+                                        <div class="slds-card__header slds-grid">
+                                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                                <div class="slds-media__figure">
+                                                    <div class="profilePicWrapper slds-media slds-no-space slds-media__figure">
+                                                        <lightning:icon iconName="standard:answer_public"/>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-media__body">
+                                                    <h2>
+                                                        <div class="slds-card__header-link slds-truncate">
+                                                            <span class="slds-text-heading_small">{!p.Name}</span>
+                                                        </div>
+                                                    </h2>
+                                                </div>
+                                            </header>
+                                            <div class="slds-no-flex">
+                                                {!p.LowScore__c} - {!p.HighScore__c}
+                                            </div>
+                                        </div>
+                                        <div class="slds-card__body slds-card__body_inner">{!p.Description__c}</div>
+                                    </article>
+                                </aura:iteration>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-notify slds-notify_alert slds-theme_warning slds-theme_alert-texture slds-banner slds-m-top_medium">
+                                    <span class="slds-assistive-text">Warning</span>
+                                    <lightning:icon size="x-small" iconName="utility:warning"/>
+                                    <h2 class="slds-m-left_x-small">
+                                        There is no risk profile configured.
+                                    </h2>
+                                    <a onclick="{!c.navigate}">Set Up Now</a>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+    </aura:if>
+    
+    <!-- Modal for adding a new question and answers -->
+    <lightning:overlayLibrary aura:id="ModalDialogPlaceholder"/>
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component controller="ATR_ConfigController">
+    <aura:registerEvent name="switchTab" type="c:ATR_ChangeTabFocus" />
+    
+    <lightning:input aura:id="templateName" label="Template Name " name="template" />
+
+    <div class="slds-border_top slds-m-top_medium slds-text-align_right">
+        <lightning:button class="slds-m-top_small" variant="brand" onclick="{!c.save}" label="Save" />
+    </div>
+    <lightning:overlayLibrary aura:id="overlay1" />
+</aura:component>

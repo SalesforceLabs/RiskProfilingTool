@@ -1,0 +1,11 @@
+.THIS .background-grey {
+    background-color: #F7F9FB;
+}
+
+.THIS.hideError {
+    display: none;
+}
+
+.THIS .slds-icon-text-default {
+    fill: #fff;
+}

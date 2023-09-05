@@ -1,0 +1,31 @@
+.THIS .slds-icon-utility-close > span > .slds-icon-text-default  {
+    fill: #fff;
+}
+
+.THIS .slds-modal__header {
+    border-style: none;
+}
+
+.THIS .slds-form-element__control {
+    width: 100%;
+}
+
+.THIS .slds-modal__footer {
+    border-top: 1px solid rgb(216, 221, 230);
+}
+
+.THIS .ui-sortable-helper {
+    display: table;
+}
+
+.THIS .slds-media__figure {
+    margin-right: .25rem;
+}
+
+.THIS .wrapText {
+    white-space: normal;
+}
+
+.THIS .answerItem {
+    cursor: grab;
+}

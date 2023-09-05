@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Update survey response" >
+	<aura:attribute name="answer" type="String" />
+    <aura:attribute name="score"  type="Integer" />
+</aura:event>

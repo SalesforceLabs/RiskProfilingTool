@@ -1,0 +1,17 @@
+.THIS .moveIcon {
+    margin-right: 5px;
+    cursor: grab;
+}
+
+.THIS .slds-badge {
+    margin-right: 5px;
+    vertical-align: inherit;
+}
+
+.THIS .slds-radio {
+    line-height: 2em;
+}
+
+.THIS .questionNumberText {
+    font-weight: 700;
+}

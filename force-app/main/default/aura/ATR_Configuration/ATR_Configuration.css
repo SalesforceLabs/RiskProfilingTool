@@ -1,0 +1,11 @@
+.THIS.atr-template-list .slds-form-element__label {
+    display: none;
+}
+
+.THIS .atr-score {
+    font-weight: 700;
+}
+
+.THIS .atr-select-container {
+	width: min(100%, 40em);
+}

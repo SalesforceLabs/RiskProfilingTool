@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Maximum_Total_Score__c</fullName>
+    <deprecated>false</deprecated>
+    <externalId>false</externalId>
+    <label>Maximum Total Score</label>
+    <summarizedField>ATR_Question__c.Maximum_Score__c</summarizedField>
+    <summaryForeignKey>ATR_Question__c.ATR_Template__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

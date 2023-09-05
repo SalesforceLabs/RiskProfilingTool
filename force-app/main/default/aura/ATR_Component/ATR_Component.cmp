@@ -1,0 +1,100 @@
+<aura:component controller="ATR_QuestionnaireController">
+    <aura:attribute name="clientId"   type="String" />
+    <aura:attribute name="templateId" type="String" />
+    <aura:attribute name="ATRTaken"   type="ATR_Taken__c" />
+    
+    <!-- Page Generator -->
+    <aura:attribute name="atrPages" type="Boolean" default="true" />
+    
+    <!-- Populate Questions -->
+    <aura:attribute name="ATRQuestions"      type="ATR_Question__c[]" />
+    <aura:attribute name="currentQuestion"   type="ATR_Question__c" />
+    <aura:attribute name="questionResponses" type="ATR_Question_Response__c[]" />
+    <aura:attribute name="currentScore"      type="Integer" />
+    <aura:attribute name="currentAnswer"     type="String" />
+    <aura:attribute name="currentIndex"      type="Integer" default="0" />
+    
+    <!-- Error Message -->
+    <aura:attribute name="showQuestion" type="Boolean" default="true"/>
+    <aura:attribute name="errorText"    type="String" />
+    
+    <!-- Progress Tracker -->
+    <aura:attribute name="progresswidth"   type="Integer" default="0" />
+    <aura:attribute name="progresspercent" type="Integer" default="0" />
+    
+    <!-- Button Attributes -->
+    <aura:attribute name="prevButton" type="Boolean" default="false" />
+    <aura:attribute name="nextButton" type="Boolean" default="true" />
+    
+    <!-- Event Registration -->
+    <aura:registerEvent name="showResult" type="c:ATR_ShowResult" />
+    
+    <!-- Event Handlers -->
+    <aura:handler name="init"   value="{!this}"       action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.atrPages}" action="{!c.handleShowResult}" />
+    <aura:handler name="updateResponse" event="c:ATR_UpdateResponse" action="{!c.handleUpdateResponse}"/>
+    
+    
+    <!-- Component Starts -->    
+    <!--  Error message   -->
+    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert" aura:id="errorMessage">
+        <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small errorIcon">
+            <lightning:icon size="x-small" iconName="utility:warning"/>
+        </span>
+        <h2>{!v.errorText}</h2>
+    </div>
+    
+    <aura:if isTrue="{!v.showQuestion == true}">
+        <!-- ATR Questions -->
+        <c:ATR_QuestionBox question="{!v.currentQuestion}" currentAnswer="{!v.currentAnswer}" aura:id="questionBox" />
+        
+        <!-- Next / Submit Buttons -->
+        <section class="slds-clearfix slds-theme--default">
+            <div class="slds-float--right slds-p-around--small">
+                <aura:if isTrue="{!v.prevButton}">
+                    <lightning:button onclick="{!c.prevButton}" variant="neutral" class="nextButton" label="Prev" />
+                </aura:if>
+                <aura:if isTrue="{!v.nextButton}">
+                    <lightning:button onclick="{!c.nextButton}" variant="success" class="nextButton" label="Next" />
+                    <aura:set attribute="else">
+                        <lightning:button onclick="{!c.submitButton}" variant="success" class="nextButton" label="Finish" />
+                    </aura:set>
+                </aura:if>
+            </div>
+        </section>
+        
+        <!-- Progress Tracker -->
+        <section class="slds-p-top_large slds-p-horizontal_x-small slds-p-bottom_x-small slds-theme_default">
+            <div class="slds-p-around_x-large background-grey">
+                <div class="slds-progress">
+                    <ol class="slds-progress__list">
+                        <aura:iteration items="{!v.ATRQuestions}" var="question" indexVar="index">
+                            <li class="{!'slds-progress__item ' + (index == v.currentIndex ? 'slds-is-active' : (lessthan(index, v.currentIndex) ? 'slds-is-complete' : ''))}">
+                                <button class="slds-button slds-progress__marker">
+                                    <span class="slds-assistive-text">Step {!index + 1} </span>
+                                </button>
+                            </li>
+                        </aura:iteration>
+                    </ol>
+                    <div class="slds-progress-bar slds-progress-bar_x-small" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" role="progressbar">
+                        <span class="slds-progress-bar__value" style="{! 'width: ' + v.progresswidth + '%'}">
+                            <span class="slds-assistive-text">Progress: {!v.progresspercent}%</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <aura:set attribute="else">
+            <div class="slds-theme_default slds-p-around_small slds-p-top_large">
+                Please make sure there is at least one question added to the template.
+            </div>
+            <section class="slds-clearfix slds-theme_default">
+                <div class="slds-float_right slds-p-around_small">
+                    <lightning:button onclick="{!c.close}" variant="success" label="Close" />
+                </div>
+            </section>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

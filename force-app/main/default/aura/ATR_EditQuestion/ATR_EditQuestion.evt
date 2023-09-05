@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Edit Answer Event">
+    <aura:attribute name="selectedQuestion" type="ATR_Question__c"/>
+    <aura:attribute name="choices"          type="ATR_Choice__c[]"/>
+</aura:event>

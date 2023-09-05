@@ -1,0 +1,82 @@
+<aura:component controller="ATR_ClientController" implements="force:hasRecordId,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!-- Page Generator -->
+    <aura:attribute name="startPage"   type="Boolean" default="true" />
+    <aura:attribute name="atrPages"    type="Boolean" default="false" />
+    <aura:attribute name="summaryPage" type="Boolean" default="false" />
+    
+    <!-- Client -->
+    <aura:attribute name="client"   type="Account" />
+    <aura:attribute name="ATRTaken" type="ATR_Taken__c" />
+    
+    <!-- Template -->
+    <aura:attribute name="templates"  type="ATR_Template__c[]" />
+    <aura:attribute name="templateId" type="String" />
+    
+    <!-- Summary Page -->
+    <aura:attribute name="riskScore"   type="Integer" default="0" />
+    <aura:attribute name="riskProfile" type="Risk_Profile__c" />
+    
+    <!-- Event Handlers -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler name="showResult" event="c:ATR_ShowResult" action="{!c.handleShowResult}"/>
+    
+    <!-- Start Page -->
+    <aura:if isTrue="{!v.startPage}">
+        <section class="slds-m-around_small">
+            <div class="slds-text-heading_large">How to use this attitude to risk questionnaire</div>
+            <div class="slds-m-top_medium">
+                <p>This questionnaire will provide you with a score that will help you understand your investment risk appetite. It is not suitable for people who are not willing to take any investment risk.</p>
+                <p class="slds-m-top_small">Simply answer the questions and read the summary at the end.  If there are two of you, answer the questions for yourself and then have the second person take the questionnaire from scratch.</p>
+                <p class="slds-m-top_small">Please select template to start a questionnaire:</p>
+            </div>
+        </section>
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-2">
+                <section class="slds-m-around_small">
+                    <lightning:select aura:id="templateList" name="templateList" label="Choose Template:" onchange="{!c.selectTemplate}">
+                        <aura:iteration items="{!v.templates}" var="template">
+                            <option value="{!template.Id}" text="{!template.Name}" />
+                        </aura:iteration>
+                    </lightning:select>
+                </section>
+            </div>
+            <div class="slds-col slds-size_1-of-2">
+                <section class="slds-m-around_small slds-clearfix">
+                    <div class="slds-float_right">
+                        <lightning:button aura:id="startButton" onclick="{!c.startButton}" variant="success" label="Get Started"></lightning:button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </aura:if>
+    
+    <!-- ATR Pages -->
+    <aura:if isTrue="{!v.atrPages}">
+        <c:ATR_Component clientId="{!v.client.Id}" templateId="{!v.templateId}"/>
+    </aura:if>
+    
+    <!-- Summary Page -->
+    <aura:if isTrue="{!v.summaryPage}">
+        <div class="slds-theme_default">
+            <section class="slds-p-around_medium">
+                <div class="slds-text-heading_large">Attitude to Risk Summary</div>
+                <div class="slds-m-vertical_large">
+                    <p class="slds-text-heading_large">Risk Score: {!v.riskScore}</p>
+                    <aura:if isTrue="{!v.riskProfile != null}">
+                        <p class="slds-m-top_small slds-section__title">{!v.riskProfile.Name} - ({!v.riskProfile.LowScore__c}-{!v.riskProfile.HighScore__c})</p>
+                        <p class="slds-m-top_small">{!v.riskProfile.Description__c}</p>
+                        <aura:set attribute="else">
+                            <p class="slds-m-top_small slds-section__title">No Risk Profile Match</p>
+                            <p class="slds-m-top_small">There is no risk profile matching this score. Please make sure the risk profiles are created prior to taking this questionnaire.</p>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </section>
+            <section class="slds-clearfix slds-theme_default">
+                <div class="slds-float_right slds-p-around_small">
+                    <lightning:button onclick="{!c.close}" variant="success" label="Close"></lightning:button>
+                </div>
+            </section>
+        </div>
+    </aura:if>
+</aura:component>

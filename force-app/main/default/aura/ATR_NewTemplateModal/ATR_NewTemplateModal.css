@@ -1,0 +1,7 @@
+.THIS .slds-icon-text-default {
+    fill: #fff;
+}
+
+.THIS .hideLabel .slds-form-element__label {
+    display: none;
+}

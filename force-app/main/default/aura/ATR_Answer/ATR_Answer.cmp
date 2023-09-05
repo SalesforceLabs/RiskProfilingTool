@@ -1,0 +1,15 @@
+<aura:component >
+    <aura:attribute name="answer" type="ATR_Choice__c" access="public" />
+    <aura:attribute name="index"  type="Integer"                access="public" />
+    
+    <aura:registerEvent name="deleteAnswer" type="c:ATR_DeleteAnswer"/>
+
+    <tr aura:id="answerItem" id="{!v.answer.Answer__c}" class="slds-hint-parent answerItem">
+        <td class="gridcell slds-truncate" title="{!v.answer.Answer__c}">{!v.answer.Answer__c}</td>
+        <td class="gridcell slds-truncate" title="{!v.answer.Score__c}">{!v.answer.Score__c}</td>
+        <td class="gridcell">
+            <lightning:button label="Delete" iconName="utility:delete" iconPosition="left"  variant="destructive" onclick="{!c.deleteAnswer}" />
+        </td>
+    </tr>
+
+</aura:component>

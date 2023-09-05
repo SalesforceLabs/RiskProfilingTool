@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Delete Answer Event">
+    <aura:attribute name="selectedAnswer" type="ATR_Choice__c"/>
+    <aura:attribute name="index"          type="Integer" />
+</aura:event>

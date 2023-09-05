@@ -1,0 +1,117 @@
+<aura:component >
+    <ltng:require styles="{! $Resource.ATR_jquery_ui + '/jquery-ui.min.css'}"  />
+    <ltng:require scripts="{!join(',', $Resource.ATR_jquery, $Resource.ATR_jquery_ui + '/jquery-ui.min.js')}" afterScriptsLoaded="{!c.scriptsLoaded}" />
+    
+    <aura:attribute name="template"   type="ATR_Template__c" required="true" />
+    <aura:attribute name="question"   type="ATR_Question__c" />
+    <aura:attribute name="answers"    type="ATR_Choice__c[]" />
+    <aura:attribute name="todelete"   type="ATR_Choice__c[]" />
+    <aura:attribute name="answerIds"  type="String[]" />
+    <aura:attribute name="actionName" type="String" required="true" />
+    
+    <aura:registerEvent name="updateQuestionEvt" type="c:ATR_AddQuestion"/>
+    
+    <aura:handler name="deleteAnswer" event="c:ATR_DeleteAnswer" action="{!c.deleteAnswer}" />
+    <aura:handler name="change" value="{!v.answerIds}" action="{!c.saveOrder}"/>
+    
+    <lightning:spinner aura:id="mySpinner" variant="brand" size="large" class="slds-hide"/>
+    
+    <!-- Help Text -->
+    <aura:attribute name="questionHelp" type="List" default="['Question must not exceed 255 characters.']" />
+    <aura:attribute name="choiceHelp"   type="List" default="['Answer choices for the current question.',
+                                                             'Each answer consists of an answer text of maximum 255 characters, and score in number.',
+                                                             'To re-order answer choices, simply drag and drop them into the order you prefer.']" />
+    
+    <div class="slds-p-around_medium">
+        <div>
+            <article class="slds-card slds-theme_default">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="profilePicWrapper slds-media slds-no-space slds-media__figure">
+                                <lightning:icon iconName="standard:question_feed"/>
+                            </div>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2>
+                                <div class="slds-card__header-link slds-truncate">
+                                    <span class="slds-text-heading_small">
+                                        Question
+                                        <c:ATR_HelpTooltip helpTextArr="{!v.questionHelp}"/>
+                                    </span>
+                                </div>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body slds-card__body_inner">
+                    <lightning:textarea aura:id="questionName" label="Question:" 
+                                        variant="label-hidden" 
+                                        name="question" 
+                                        value="{!v.question.Question__c}" />
+                </div>
+            </article>
+            
+            <br />
+            
+            <article class="slds-card slds-theme_default">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <div class="profilePicWrapper slds-media slds-no-space slds-media__figure">
+                                <lightning:icon iconName="standard:answer_public"/>
+                            </div>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2>
+                                <div class="slds-card__header-link slds-truncate">
+                                    <span class="slds-text-heading_small wrapText">
+                                        Answer Choices
+                                        <c:ATR_HelpTooltip helpTextArr="{!v.choiceHelp}"/>
+                                    </span>
+                                </div>
+                            </h2>
+                        </div>
+                    </header>
+                </div>
+                <div class="slds-card__body slds-card__body_inner">
+                    <table role="grid" class="slds-m-top_large slds-table slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="slds-is-sortable slds-is-resizable slds-text-title_caps">
+                                    <span class="slds-truncate">Answer</span>
+                                </th>
+                                <th class="slds-is-sortable slds-is-resizable slds-text-title_caps">
+                                    <span class="slds-truncate">Score</span>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody aura:id="answerList" id="answerList">
+                            <aura:iteration items="{!v.answers}" var="answer" indexVar="index">
+                                <c:ATR_Answer answer="{!answer}" index="{!index}" />
+                            </aura:iteration>
+                        </tbody>
+                        <tfoot>
+                            <tr class="slds-line-height_reset">
+                                <td class="gridcell">
+                                    <lightning:input class="hideLabel" aura:id="answerName" label="Answer" name="answerName" />
+                                </td>
+                                <td class="gridcell">
+                                    <lightning:input class="hideLabel" aura:id="answerScore" label="Score" name="answerScore" />
+                                </td>
+                                <td class="gridcell">
+                                    <lightning:button class="slds-m-top_small" label="Add" iconName="utility:add" onclick="{!c.addAnswer}" />
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </article>
+        </div>
+    </div>
+    <div class="slds-modal__footer">
+        <lightning:button variant="brand" label="Save" onclick="{!c.updateQuestion}" />
+    </div>
+    <lightning:overlayLibrary aura:id="overlayLib1"/>
+</aura:component>
